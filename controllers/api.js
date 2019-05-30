@@ -4,7 +4,7 @@ var db = require("../models");
 var request = require("request"); //Makes http calls
 var cheerio = require("cheerio");
  
-// A GET route for scraping the NYT website
+// A GET route for scraping ESPN.com
 router.get("/scrape", (req, res) => {
     console.log("scrape ran")
     // First, we grab the body of the html with request

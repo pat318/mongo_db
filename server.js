@@ -1,15 +1,15 @@
 // Dependencies
-const express = require("express");
-const bodyParser = require("body-parser"); //JSON responses
-const mongoose = require("mongoose"); //Mongo object modelling 
-const request = require("request"); //Makes http calls
-const cheerio = require("cheerio"); //Scraper
+var express = require("express");
+var bodyParser = require("body-parser"); //JSON responses
+var mongoose = require("mongoose"); //Mongo object modelling 
+var request = require("request"); //Makes http calls
+var cheerio = require("cheerio"); //Scraper
 
 // Require all models
 var db = require("./models");
 
 // Port configuration for local/Heroku
-var PORT = process.env.PORT || process.argv[2] || 8080;
+var PORT = process.env.PORT || 3003;
 
 // Initialize Express
 var app = express();
@@ -36,5 +36,5 @@ mongoose.Promise = Promise;
 
 // Start the server
 app.listen(PORT, function () {
-    console.log(`This application is running on port: ${PORT}`);
+    console.log("App is running on" + PORT + "!");
 });

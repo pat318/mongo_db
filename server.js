@@ -9,7 +9,7 @@ var cheerio = require("cheerio"); //Scraper
 var db = require("./models");
 
 // Port configuration for local/Heroku
-var PORT = process.env.PORT || 3003;
+var PORT = process.env.PORT || 4040;
 
 // Initialize Express
 var app = express();

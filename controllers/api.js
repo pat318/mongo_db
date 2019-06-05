@@ -8,7 +8,7 @@ var cheerio = require("cheerio");
 router.get("/scrape", (req, res) => {
     console.log("scrape ran")
     // First, we grab the body of the html with request
-    request("https://www.espn.com/", (error, response, body) => {
+    request("https://deadspin.com/", (error, response, body) => {
         if (!error && response.statusCode === 200) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
             var $ = cheerio.load(body);
@@ -17,27 +17,30 @@ router.get("/scrape", (req, res) => {
             $('article').each(function (i, element) {
                 // Save an empty result object
                 var result = {};
+                let divs = $(element).children('div');
+                console.log(divs);
+                if(divs.length !== 6){
+                    return;
+                }
                 // Add the text and href of every link, and summary and byline, saving them to object
-                result.title = $(element)
-                    .children('.story-heading')
+                result.title = $(divs['2'])
                     .children('a')
+                    .children('h1')
                     .text().trim();
-                result.link = $(element)
-                    .children('.story-heading')
+                result.link = $(divs['2'])
                     .children('a')
                     .attr("href");
-                result.summary = $(element)
-                    .children('.summary')
-                    .text().trim()
-                    || $(element)
-                        .children('ul')
-                        .text().trim();
+                result.summary = $(divs['5'])
+                    .children('div')
+                    .children('p')
+                    .text().trim();
                 result.byline = $(element)
                     .children('.byline')
                     .text().trim()
                     || 'No byline available'
                 
-                if (result.title && result.link && result.summary){
+                    console.log(result);
+                if (result.title){
                     // Create a new Article using the `result` object built from scraping, but only if both values are present
                     db.Article.create(result)
                         .then(function (dbArticle) {
